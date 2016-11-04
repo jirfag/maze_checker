@@ -6,11 +6,13 @@
       %th Elapsed time, mcs
       %th Steps
       %th Attempts
+      %th Best attempt time
   %tbody
   - @maze_results.each_with_index do |res, i|
     %tr
       %td= i+1
-      %td= MazeUser.find(res.maze_user_id).name
+      %td= link_to_user(res.maze_user_id)
       %td= res.elapsed_mcs
       %td= res.steps
       %td= MazeResult.where(maze_user_id: res.maze_user_id).count
+      %td= res.created_at
