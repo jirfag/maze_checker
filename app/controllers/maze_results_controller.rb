@@ -7,7 +7,8 @@ class MazeResultsController < ApplicationController
     @maze_results = MazeResult.all
   end
   def create
-    @maze_user = MazeUser.find_or_create_by(name: params[:user])
+    user_name = params[:user].gsub(/^([^\/]+)\/.+$/, '\1')
+    @maze_user = MazeUser.find_or_create_by(name: user_name)
     @maze_result = @maze_user.maze_results.create(maze_result_params)
     render :json => {}
   end
