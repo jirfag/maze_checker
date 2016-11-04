@@ -1,0 +1,16 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th Place
+      %th User
+      %th Elapsed time, mcs
+      %th Steps
+      %th Attempts
+  %tbody
+  - @maze_results.each_with_index do |res, i|
+    %tr
+      %td= i+1
+      %td= MazeUser.find(res.maze_user_id).name
+      %td= res.elapsed_mcs
+      %td= res.steps
+      %td= MazeResult.where(maze_user_id: res.maze_user_id).count
