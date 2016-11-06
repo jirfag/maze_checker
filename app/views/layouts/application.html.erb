@@ -5,8 +5,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Maze challenge</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -34,8 +32,22 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="/maze_results/">Лог решений</a></li>
-        <li><a href="/maze_results/top/time">ТОП по времени</a></li>
-        <li><a href="/maze_results/top/steps">ТОП по числу шагов</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ТОП по времени <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <% [1, 2, 3].each do |level_id| %>
+              <li><a href="/maze_results/top/time/<%= level_id %>">Level <%= level_id %></a></li>
+            <% end %>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ТОП по числу шагов <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <% [1, 2, 3].each do |level_id| %>
+              <li><a href="/maze_results/top/steps/<%= level_id %>">Level <%= level_id %></a></li>
+            <% end %>
+          </ul>
+        </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

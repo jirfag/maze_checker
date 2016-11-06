@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104153823) do
+ActiveRecord::Schema.define(version: 20161106102007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20161104153823) do
     t.integer  "maze_user_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.string   "level_id"
   end
 
   add_index "maze_results", ["maze_user_id"], name: "index_maze_results_on_maze_user_id", using: :btree

@@ -2,6 +2,7 @@
   %thead
     %tr
       %th User
+      %th Level
       %th Elapsed time, mcs
       %th Steps
       %th When
@@ -9,6 +10,7 @@
   - @maze_results.each do |res|
     %tr
       %td= res.maze_user.name
+      %td= res.level_id
       %td= res.elapsed_mcs
       %td= res.steps
       %td= res.created_at

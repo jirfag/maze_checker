@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get 'maze_results/top/time' => 'maze_results#top_time'
-  get 'maze_results/top/steps' => 'maze_results#top_steps'
+  get 'maze_results/top/time/:level_id' => 'maze_results#top_time'
+  get 'maze_results/top/steps/:level_id' => 'maze_results#top_steps'
   resources :maze_results
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
