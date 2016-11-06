@@ -12,11 +12,15 @@ class MazeResultsController < ApplicationController
     render :json => {}
   end
   def top_time
-    @maze_results = MazeResult.where(level_id: params.require(:level_id)).order(elapsed_mcs: :asc).select('DISTINCT ON (maze_user_id, elapsed_mcs) *')
+    @level_id = params.require(:level_id)
+    @maze_results = MazeResult.where(level_id: @level_id).order(elapsed_mcs: :asc).select('DISTINCT ON (maze_user_id, elapsed_mcs) *')
+    @criteria = 'времени'
     render 'top'
   end
   def top_steps
-    @maze_results = MazeResult.where(level_id:params.require(:level_id)).order(steps: :asc).select('DISTINCT ON (maze_user_id, steps) *')
+    @level_id = params.require(:level_id)
+    @maze_results = MazeResult.where(level_id: @level_id).order(steps: :asc).select('DISTINCT ON (maze_user_id, steps) *')
+    @criteria = 'числу шагов'
     render 'top'
   end
   private
