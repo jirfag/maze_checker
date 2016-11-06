@@ -1,3 +1,5 @@
+require 'octokit'
+
 class MazeResultsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -9,6 +11,7 @@ class MazeResultsController < ApplicationController
   def create
     @maze_user = MazeUser.find_or_create_by(name: params.require(:user))
     @maze_result = @maze_user.maze_results.create(maze_result_params)
+    add_pull_request_comment(@maze_result)
     render :json => {}
   end
   def top_time
@@ -26,5 +29,15 @@ class MazeResultsController < ApplicationController
   private
     def maze_result_params
       params.permit(:steps, :elapsed_mcs, :level_id)
+    end
+    def add_pull_request_comment(maze_result)
+      message = "## Результат был зафиксирован\n" \
+                "-  уровень **#{maze_result.level_id}**\n" \
+                "- **#{maze_result.steps}** шагов\n" \
+                "- **#{maze_result.elapsed_mcs}** мкс\n" \
+                "- **#{maze_result.place_for_steps}** место по шагам (без учета одинаковых результатов)\n" \
+                "- **#{maze_result.place_for_time}** место по времени (без учета одинаковых результатов)"
+      client = Octokit::Client.new :access_token => ENV['GITHUB_TOKEN']
+      client.add_comment("jirfag/PREP-labyrinth", params.require(:pull_id), message)
     end
 end
