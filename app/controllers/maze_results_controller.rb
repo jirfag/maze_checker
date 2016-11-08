@@ -9,6 +9,12 @@ class MazeResultsController < ApplicationController
     @maze_results = MazeResult.all
   end
   def create
+    if params.require(:steps).to_i <= 10 || params.require(:elapsed_mcs).to_i <= 100 then
+      # Hack was detected
+      render :json => {status: 500}
+      return
+    end
+
     @maze_user = MazeUser.find_or_create_by(name: params.require(:user))
     @maze_result = @maze_user.maze_results.create(maze_result_params)
     add_pull_request_comment(@maze_result)
