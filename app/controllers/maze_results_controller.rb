@@ -45,5 +45,8 @@ class MazeResultsController < ApplicationController
                 "- **#{maze_result.place_for_time}** место по времени (без учета одинаковых результатов)"
       client = Octokit::Client.new :access_token => ENV['GITHUB_TOKEN']
       client.add_comment("jirfag/PREP-labyrinth", params.require(:pull_id), message)
+
+      # Close PR to prevent pushing of hacks in next commits
+      client.close_pull_request("jirfag/PREP-labyrinth", params.require(:pull_id))
     end
 end
