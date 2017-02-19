@@ -1,16 +1,18 @@
 %table.table.table-striped
   %thead
     %tr
+      %th Number
       %th User
       %th Level
       %th Elapsed time, mcs
       %th Steps
-      %th When
+      %th Last Submit Time
   %tbody
-  - @maze_results.each do |res|
+  - @maze_results.each_with_index do |res, i|
     %tr
+      %td= i + 1
       %td= res.maze_user.name
       %td= res.level_id
       %td= res.elapsed_mcs
       %td= res.steps
-      %td= res.created_at
+      %td= l(res.created_at, format: :long)

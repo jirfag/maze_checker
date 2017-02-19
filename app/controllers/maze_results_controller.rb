@@ -22,13 +22,13 @@ class MazeResultsController < ApplicationController
   end
   def top_time
     @level_id = params.require(:level_id)
-    @maze_results = MazeResult.where(level_id: @level_id).order(elapsed_mcs: :asc).select('DISTINCT ON (maze_user_id, elapsed_mcs) *')
+    @maze_results = MazeResult.find_by_sql("select t0.elapsed_mcs as elapsed_mcs, t0.maze_user_id as maze_user_id, min(t0.created_at) as created_at from maze_results t0 join (select t.maze_user_id, min(t.elapsed_mcs) as elapsed_mcs from maze_results t where level_id=#{ActiveRecord::Base.connection.quote(@level_id)} group by (t.maze_user_id)) t1 on t0.maze_user_id=t1.maze_user_id and t0.elapsed_mcs=t1.elapsed_mcs group by (t0.maze_user_id, t0.elapsed_mcs) order by t0.elapsed_mcs asc, min(t0.created_at) asc")
     @criteria = 'времени'
     render 'top'
   end
   def top_steps
     @level_id = params.require(:level_id)
-    @maze_results = MazeResult.where(level_id: @level_id).order(steps: :asc).select('DISTINCT ON (maze_user_id, steps) *')
+    @maze_results = MazeResult.find_by_sql("select t0.steps as steps, t0.maze_user_id as maze_user_id, min(t0.created_at) as created_at from maze_results t0 join (select t.maze_user_id, min(t.steps) as steps from maze_results t where level_id=#{ActiveRecord::Base.connection.quote(@level_id)} group by (t.maze_user_id)) t1 on t0.maze_user_id=t1.maze_user_id and t0.steps=t1.steps group by (t0.maze_user_id, t0.steps) order by t0.steps asc, min(t0.created_at) asc")
     @criteria = 'числу шагов'
     render 'top'
   end

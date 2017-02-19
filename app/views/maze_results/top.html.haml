@@ -5,16 +5,20 @@
     %tr
       %th Place
       %th User
-      %th Elapsed time, mcs
-      %th Steps
+      - if action_name == "top_time"
+        %th Elapsed time, mcs
+      - else
+        %th Steps
       %th Attempts
-      %th Best attempt time
+      %th Best Attempt Time
   %tbody
   - @maze_results.each_with_index do |res, i|
     %tr
       %td= i+1
       %td= link_to_user(res.maze_user_id)
-      %td= res.elapsed_mcs
-      %td= res.steps
+      - if action_name == "top_time"
+        %td= res.elapsed_mcs
+      - else
+        %td= res.steps
       %td= MazeResult.where(maze_user_id: res.maze_user_id).count
-      %td= res.created_at
+      %td= l(res.created_at, format: :long)
